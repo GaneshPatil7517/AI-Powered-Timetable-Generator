@@ -44,7 +44,7 @@ def generate_slots(db: Session = Depends(get_db)):
 
 @router.get("/generate-ai-timetable")
 def generate_ai(db: Session = Depends(get_db)):
-    timetable = generate_ai_timetable(db)
-    return {
-        "timetable": timetable
-    }
+    return generate_ai_timetable(db)
+
+
+

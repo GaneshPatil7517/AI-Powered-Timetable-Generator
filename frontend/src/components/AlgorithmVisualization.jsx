@@ -44,6 +44,25 @@ export default function AlgorithmVisualization({ algorithmData }) {
         },
   }
 
+  const statColorClasses = {
+    blue: {
+      card: 'bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700',
+      text: 'text-blue-600 dark:text-blue-400',
+    },
+    green: {
+      card: 'bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700',
+      text: 'text-green-600 dark:text-green-400',
+    },
+    red: {
+      card: 'bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700',
+      text: 'text-red-600 dark:text-red-400',
+    },
+    purple: {
+      card: 'bg-purple-50 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700',
+      text: 'text-purple-600 dark:text-purple-400',
+    },
+  }
+
   const stats = [
     {
       label: 'Total Generations',
@@ -74,13 +93,13 @@ export default function AlgorithmVisualization({ algorithmData }) {
         {stats.map((stat, idx) => (
           <motion.div key={idx} variants={itemVariants} className="">
             <div
-              className={`bg-${stat.color}-50 dark:bg-${stat.color}-900/30 rounded-lg p-4 border border-${stat.color}-200 dark:border-${stat.color}-700`}
+              className={`${statColorClasses[stat.color].card} rounded-lg p-4`}
             >
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                 {stat.label}
               </p>
               <p
-                className={`text-2xl font-bold text-${stat.color}-600 dark:text-${stat.color}-400`}
+                className={`text-2xl font-bold ${statColorClasses[stat.color].text}`}
               >
                 {stat.value}
               </p>

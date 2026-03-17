@@ -5,7 +5,7 @@ import os
 
 from app import models
 from app.routers.inputs import router as input_router
-from app.routers.timetable import router as timetable_router
+from app.routers.timetable_new import router as timetable_router
 
 models.Base.metadata.create_all(bind=engine)
 

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.database import engine
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 from app import models
 from app.routers.inputs import router as input_router
@@ -14,9 +15,11 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
+frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # frontend URL later
+    allow_origins=[frontend_origin],   # frontend URL configured via FRONTEND_ORIGIN
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

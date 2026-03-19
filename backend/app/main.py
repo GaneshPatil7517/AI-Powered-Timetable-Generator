@@ -1,29 +1,66 @@
-from fastapi import FastAPI
-from app.database import engine
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
+from app.database import engine
 from app import models
-from app.routers.inputs import router as input_router
-from app.routers.timetable_new import router as timetable_router
 
+from app.routers.inputs import router as input_router
+from app.routers.timetable import router as timetable_router
+from app.routers.auth import router as auth_router
+from app.routers.import_export import router as import_export_router
+
+# Create all tables
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="AI Timetable Generator",
+    description="An intelligent timetable generation system using genetic algorithms",
+    version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
 )
 
-frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
-
+# CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[frontend_origin],   # frontend URL configured via FRONTEND_ORIGIN
+    allow_origins=["*"],  # Configure this for production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+
+# Global Exception Handler
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={
+            "detail": "An unexpected error occurred",
+            "error": str(exc) if app.debug else "Internal server error"
+        }
+    )
+
+
+# Health Check
+@app.get("/")
+def health_check():
+    return {
+        "status": "healthy",
+        "version": "2.0.0",
+        "message": "AI Timetable Generator API is running"
+    }
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+
+# Include Routers
 app.include_router(input_router, prefix="/api", tags=["Inputs"])
 app.include_router(timetable_router, prefix="/api", tags=["Timetable"])
+app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
+app.include_router(import_export_router, prefix="/api", tags=["Import/Export"])

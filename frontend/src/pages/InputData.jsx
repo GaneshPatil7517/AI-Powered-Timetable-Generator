@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Trash2, AlertTriangle, X } from 'lucide-react'
-import { divisionsAPI, teachersAPI, subjectsAPI } from '../services/api'
+import { divisionsAPI, teachersAPI, subjectsAPI, timetableAPI } from '../services/api'
 
 export default function InputData() {
   const [activeTab, setActiveTab] = useState('divisions')
@@ -533,12 +533,12 @@ function SubjectsTab({ subjects, formData, setFormData, handleSubmit, handleDele
               <input
                 type="number"
                 placeholder="e.g., 2"
-                value={formData.teachers_required || ''}
-                onChange={(e) => setFormData({ ...formData, teachers_required: e.target.value ? parseInt(e.target.value) : '' })}
+                value={formData.teachers_required || 1}
+                onChange={(e) => setFormData({ ...formData, teachers_required: e.target.value ? parseInt(e.target.value) : 1 })}
                 className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2"
                 required
                 min="1"
-                max="10"
+                max="5"
               />
             </div>
             <div className="flex items-end">
@@ -637,16 +637,46 @@ function ConfigTab() {
     break_duration: 60
   })
   const [loading, setLoading] = useState(false)
+  const [saved, setSaved] = useState(false)
+
+  useEffect(() => {
+    loadConfig()
+  }, [])
+
+  const loadConfig = async () => {
+    try {
+      const response = await timetableAPI.getConfig()
+      setConfig({
+        working_days: response.data.working_days,
+        start_time: response.data.start_time,
+        end_time: response.data.end_time,
+        break_count: response.data.break_count,
+        break_duration: response.data.break_duration
+      })
+      setSaved(true)
+    } catch (error) {
+      // No config found, use defaults
+      console.log('No existing config')
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     try {
-      // Save configuration logic here
-      console.log('Saving config:', config)
-      alert('Configuration saved successfully')
+      const configData = {
+        working_days: parseInt(config.working_days),
+        start_time: config.start_time,
+        end_time: config.end_time,
+        break_count: parseInt(config.break_count),
+        break_duration: parseInt(config.break_duration)
+      }
+      await timetableAPI.saveConfig(configData)
+      setSaved(true)
+      alert('Configuration saved successfully!')
     } catch (error) {
       console.error('Error saving config:', error)
+      alert('Failed to save configuration')
     } finally {
       setLoading(false)
     }

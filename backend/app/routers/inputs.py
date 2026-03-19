@@ -90,6 +90,14 @@ def delete_division(division_id: int, db: Session = Depends(get_db)):
     return None
 
 
+@router.delete("/divisions/{division_id}")
+def delete_division(division_id: int, db: Session = Depends(get_db)):
+    division = db.query(models.Division).filter(models.Division.id == division_id).first()
+    if division:
+        db.delete(division)
+        db.commit()
+    return {"message": "Division deleted successfully"}
+
 # -------------------------
 # Teacher APIs
 # -------------------------
@@ -191,6 +199,14 @@ def read_teacher_availability(teacher_id: int, db: Session = Depends(get_db)):
     return availability
 
 
+@router.delete("/teachers/{teacher_id}")
+def delete_teacher(teacher_id: int, db: Session = Depends(get_db)):
+    teacher = db.query(models.Teacher).filter(models.Teacher.id == teacher_id).first()
+    if teacher:
+        db.delete(teacher)
+        db.commit()
+    return {"message": "Teacher deleted successfully"}
+
 # -------------------------
 # Subject APIs
 # -------------------------
@@ -249,6 +265,14 @@ def delete_subject(subject_id: int, db: Session = Depends(get_db)):
     db.commit()
     return None
 
+
+@router.delete("/subjects/{subject_id}")
+def delete_subject(subject_id: int, db: Session = Depends(get_db)):
+    subject = db.query(models.Subject).filter(models.Subject.id == subject_id).first()
+    if subject:
+        db.delete(subject)
+        db.commit()
+    return {"message": "Subject deleted successfully"}
 
 # -------------------------
 # Subject ↔ Teacher Mapping

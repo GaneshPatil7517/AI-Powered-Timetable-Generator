@@ -1,3 +1,4 @@
+// This file intentionally left blank: unused AddDivision component removed (duplicated InputData divisions functionality).
 import React, { useState, useEffect } from 'react';
 
 const AddDivision = () => {

@@ -243,59 +243,60 @@ export default function Dashboard() {
 
         {/* Statistics Card */}
         <motion.div variants={itemVariants}>
-          <motion.div
-            whileHover={{ y: -8, scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="relative bg-gradient-to-br from-blue-50 to-violet-50 rounded-2xl overflow-hidden border border-blue-100 shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer"
-          >
+          <Link to="/statistics">
             <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-violet-500/0 group-hover:from-blue-500/10 group-hover:to-violet-500/10 transition-all duration-300"
-            />
-            
-            <motion.div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{
-                background: "radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.1), transparent 60%)"
-              }}
-            />
+              whileHover={{ y: -8, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="relative bg-gradient-to-br from-blue-50 to-violet-50 rounded-2xl overflow-hidden border border-blue-100 shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer"
+            >
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-violet-500/0 group-hover:from-blue-500/10 group-hover:to-violet-500/10 transition-all duration-300"
+              />
+              
+              <motion.div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: "radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.1), transparent 60%)"
+                }}
+              />
 
-            <div className="px-6 py-6 relative z-10">
-              <div className="flex items-start justify-between mb-4">
-                <motion.div
-                  whileHover={{ rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
-                  className="flex-shrink-0 bg-gradient-to-br from-blue-500 to-violet-600 rounded-xl p-3 shadow-lg group-hover:shadow-blue-500/50"
-                >
-                  <BarChart3 className="h-7 w-7 text-white" />
-                </motion.div>
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
-                  Coming Soon
-                </span>
+              <div className="px-6 py-6 relative z-10">
+                <div className="flex items-start justify-between mb-4">
+                  <motion.div
+                    whileHover={{ rotate: 360, scale: 1.1 }}
+                    transition={{ duration: 0.6 }}
+                    className="flex-shrink-0 bg-gradient-to-br from-blue-500 to-violet-600 rounded-xl p-3 shadow-lg group-hover:shadow-blue-500/50"
+                  >
+                    <BarChart3 className="h-7 w-7 text-white" />
+                  </motion.div>
+                </div>
+
+                <div className="mb-3">
+                  <span className="text-sm font-medium text-blue-600 uppercase tracking-wide">
+                    Statistics
+                  </span>
+                  <h3 className="mt-1 text-2xl font-bold text-gray-900">
+                    View Analytics
+                  </h3>
+                </div>
+
+                <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                  Track timetable generation metrics and resource utilization
+                </p>
+
+                <div className="flex items-center gap-2 text-blue-600 font-medium text-sm group-hover:gap-3 transition-all">
+                  <span>View Statistics</span>
+                  <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
               </div>
 
-              <div className="mb-3">
-                <span className="text-sm font-medium text-blue-600 uppercase tracking-wide">
-                  Statistics
-                </span>
-                <h3 className="mt-1 text-2xl font-bold text-gray-900">
-                  View Analytics
-                </h3>
-              </div>
-
-              <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                Track timetable generation metrics and resource utilization
-              </p>
-
-              <div className="flex items-center gap-2 text-blue-600 font-medium text-sm opacity-50">
-                <span>Coming Soon</span>
-              </div>
-            </div>
-
-            <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-violet-500/10 to-transparent rounded-tl-full" />
-          </motion.div>
+              <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-violet-500/10 to-transparent rounded-tl-full" />
+            </motion.div>
+          </Link>
         </motion.div>
       </motion.div>
 
+      {/* Getting Started Section */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -306,14 +307,8 @@ export default function Dashboard() {
           <div className="bg-gradient-to-r from-indigo-50 via-blue-50 to-violet-50 px-6 py-4 border-b border-gray-100">
             <div className="flex items-center gap-3">
               <motion.div
-                animate={{
-                  rotate: [0, 360],
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center shadow-lg"
               >
                 <Sparkles className="w-5 h-5 text-white" />
